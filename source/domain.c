@@ -1,39 +1,39 @@
 
-   /*+------- <| --------------------------------------------------------**
-    **         A                     Clan                                **
-    **---     /.\   -----------------------------------------------------**
-    **   <|  [""M#                 domain.c                              **
-    **-   A   | #   -----------------------------------------------------**
-    **   /.\ [""M#         First version: 26/09/2014                     **
-    **- [""M# | #  U"U#U  -----------------------------------------------**
-         | #  | #  \ .:/
-         | #  | #___| #
- ******  | "--'     .-"  ******************************************************
- *     |"-"-"-"-"-#-#-##   Clan : the Chunky Loop Analyzer (experimental)     *
- ****  |     # ## ######  *****************************************************
- *      \       .::::'/                                                       *
- *       \      ::::'/     Copyright (C) 2008 University Paris-Sud 11         *
- *     :8a|    # # ##                                                         *
- *     ::88a      ###      This is free software; you can redistribute it     *
- *    ::::888a  8a ##::.   and/or modify it under the terms of the GNU Lesser *
- *  ::::::::888a88a[]:::   General Public License as published by the Free    *
- *::8:::::::::SUNDOGa8a::. Software Foundation, either version 2.1 of the     *
- *::::::::8::::888:Y8888:: License, or (at your option) any later version.    *
- *::::':::88::::888::Y88a::::::::::::...                                      *
- *::'::..    .   .....   ..   ...  .                                          *
- * This software is distributed in the hope that it will be useful, but       *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY *
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   *
- * for more details.							      *
- *                                                                            *
- * You should have received a copy of the GNU Lesser General Public License   *
- * along with software; if not, write to the Free Software Foundation, Inc.,  *
- * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA                     *
- *                                                                            *
- * Clan, the Chunky Loop Analyzer                                             *
- * Written by Cedric Bastoul, Cedric.Bastoul@u-psud.fr                        *
- *                                                                            *
- ******************************************************************************/
+/*+------- <| --------------------------------------------------------**
+ **         A                     Clan                                **
+ **---     /.\   -----------------------------------------------------**
+ **   <|  [""M#                 domain.c                              **
+ **-   A   | #   -----------------------------------------------------**
+ **   /.\ [""M#         First version: 26/09/2014                     **
+ **- [""M# | #  U"U#U  -----------------------------------------------**
+      | #  | #  \ .:/
+      | #  | #___| #
+******  | "--'     .-"  ******************************************************
+*     |"-"-"-"-"-#-#-##   Clan : the Chunky Loop Analyzer (experimental)     *
+****  |     # ## ######  *****************************************************
+*      \       .::::'/                                                       *
+*       \      ::::'/     Copyright (C) 2008 University Paris-Sud 11         *
+*     :8a|    # # ##                                                         *
+*     ::88a      ###      This is free software; you can redistribute it     *
+*    ::::888a  8a ##::.   and/or modify it under the terms of the GNU Lesser *
+*  ::::::::888a88a[]:::   General Public License as published by the Free    *
+*::8:::::::::SUNDOGa8a::. Software Foundation, either version 2.1 of the     *
+*::::::::8::::888:Y8888:: License, or (at your option) any later version.    *
+*::::':::88::::888::Y88a::::::::::::...                                      *
+*::'::..    .   .....   ..   ...  .                                          *
+* This software is distributed in the hope that it will be useful, but       *
+* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY *
+* or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   *
+* for more details.							      *
+*                                                                            *
+* You should have received a copy of the GNU Lesser General Public License   *
+* along with software; if not, write to the Free Software Foundation, Inc.,  *
+* 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA                     *
+*                                                                            *
+* Clan, the Chunky Loop Analyzer                                             *
+* Written by Cedric Bastoul, Cedric.Bastoul@u-psud.fr                        *
+*                                                                            *
+******************************************************************************/
 
 
 #include <stdlib.h>
@@ -61,49 +61,48 @@
  * \param[in] level  Number of spaces before printing, for each line.
  */
 void clan_domain_idump(FILE* file, clan_domain_p domain, int level) {
-  int j, first = 1;
+    int j, first = 1;
 
-  // Go to the right level.
-  for (j = 0; j < level; j++)
-    fprintf(file,"|\t");
+    // Go to the right level.
+    for (j = 0; j < level; j++)
+        fprintf(file,"|\t");
 
-  if (domain != NULL)
-    fprintf(file, "+-- clan_domain_t\n");
-  else
-    fprintf(file, "+-- NULL clan_domain_t\n");
-
-  while (domain != NULL) {
-    if (!first) {
-      // Go to the right level.
-      for (j = 0; j < level; j++)
-        fprintf(file, "|\t");
-      fprintf(file, "|   clan_domain_t\n");
-    }
+    if (domain != NULL)
+        fprintf(file, "+-- clan_domain_t\n");
     else
-      first = 0;
+        fprintf(file, "+-- NULL clan_domain_t\n");
 
-    // A blank line.
-    for (j = 0; j <= level + 1; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "\n");
+    while (domain != NULL) {
+        if (!first) {
+            // Go to the right level.
+            for (j = 0; j < level; j++)
+                fprintf(file, "|\t");
+            fprintf(file, "|   clan_domain_t\n");
+        } else
+            first = 0;
 
-    // Print a set of constraint sets (a relation list).
-    osl_relation_list_idump(file, domain->constraints, level + 1);
+        // A blank line.
+        for (j = 0; j <= level + 1; j++)
+            fprintf(file, "|\t");
+        fprintf(file, "\n");
 
-    domain = domain->next;
+        // Print a set of constraint sets (a relation list).
+        osl_relation_list_idump(file, domain->constraints, level + 1);
 
-    // Next line.
-    if (domain != NULL) {
-      for (j = 0; j <= level; j++)
-        fprintf(file, "|\t");
-      fprintf(file, "V\n");
+        domain = domain->next;
+
+        // Next line.
+        if (domain != NULL) {
+            for (j = 0; j <= level; j++)
+                fprintf(file, "|\t");
+            fprintf(file, "V\n");
+        }
     }
-  }
 
-  // The last line.
-  for (j = 0; j <= level; j++)
-    fprintf(file, "|\t");
-  fprintf(file, "\n");
+    // The last line.
+    for (j = 0; j <= level; j++)
+        fprintf(file, "|\t");
+    fprintf(file, "\n");
 }
 
 
@@ -115,7 +114,7 @@ void clan_domain_idump(FILE* file, clan_domain_p domain, int level) {
  * \param[in] list The relation whose information has to be printed.
  */
 void clan_domain_dump(FILE* file, clan_domain_p list) {
-  clan_domain_idump(file, list, 0);
+    clan_domain_idump(file, list, 0);
 }
 
 
@@ -132,13 +131,13 @@ void clan_domain_dump(FILE* file, clan_domain_p list) {
  * \return A pointer to an empty domain with fields set to default values.
  */
 clan_domain_p clan_domain_malloc() {
-  clan_domain_p res;
-  
-  OSL_malloc(res, clan_domain_p, sizeof(clan_domain_t));
-  res->constraints  = NULL;
-  res->next = NULL;
+    clan_domain_p res;
 
-  return res;
+    OSL_malloc(res, clan_domain_p, sizeof(clan_domain_t));
+    res->constraints  = NULL;
+    res->next = NULL;
+
+    return res;
 }
 
 
@@ -149,17 +148,17 @@ clan_domain_p clan_domain_malloc() {
  * \param[in,out] list The pointer to the domain list we want to free.
  */
 void clan_domain_free(clan_domain_p list) {
-  clan_domain_p tmp;
+    clan_domain_p tmp;
 
-  if (list == NULL)
-    return;
+    if (list == NULL)
+        return;
 
-  while (list != NULL) {
-    osl_relation_list_free(list->constraints);
-    tmp = list->next;
-    free(list);
-    list = tmp;
-  }
+    while (list != NULL) {
+        osl_relation_list_free(list->constraints);
+        tmp = list->next;
+        free(list);
+        list = tmp;
+    }
 }
 
 
@@ -176,27 +175,26 @@ void clan_domain_free(clan_domain_p list) {
  * \return A pointer to the full copy of the domain list in parameter.
  */
 clan_domain_p clan_domain_clone(clan_domain_p list) {
-  clan_domain_p clone = NULL, node, previous = NULL; 
-  int first = 1;
+    clan_domain_p clone = NULL, node, previous = NULL;
+    int first = 1;
 
-  while (list != NULL) {
-    node = clan_domain_malloc();
-    node->constraints = osl_relation_list_clone(list->constraints);
+    while (list != NULL) {
+        node = clan_domain_malloc();
+        node->constraints = osl_relation_list_clone(list->constraints);
 
-    if (first) {
-      first = 0;
-      clone = node;
-      previous = node;
+        if (first) {
+            first = 0;
+            clone = node;
+            previous = node;
+        } else {
+            previous->next = node;
+            previous = previous->next;
+        }
+
+        list = list->next;
     }
-    else {
-      previous->next = node;
-      previous = previous->next;
-    }
 
-    list = list->next;
-  }
-
-  return clone;
+    return clone;
 }
 
 
@@ -209,10 +207,10 @@ clan_domain_p clan_domain_clone(clan_domain_p list) {
  *                     updated to the previous head of the stack.
  */
 void clan_domain_push(clan_domain_p* head, clan_domain_p node) {
-  if (node != NULL) {
-    node->next = *head;
-    *head = node;
-  }
+    if (node != NULL) {
+        node->next = *head;
+        *head = node;
+    }
 }
 
 
@@ -225,15 +223,15 @@ void clan_domain_push(clan_domain_p* head, clan_domain_p node) {
  * \return The top element of the stack (detached from the list).
  */
 clan_domain_p clan_domain_pop(clan_domain_p* head) {
-  clan_domain_p top = NULL;
-  
-  if (*head != NULL) {
-    top = *head;
-    *head = (*head)->next;
-    top->next = NULL;
-  }
+    clan_domain_p top = NULL;
 
-  return top;
+    if (*head != NULL) {
+        top = *head;
+        *head = (*head)->next;
+        top->next = NULL;
+    }
+
+    return top;
 }
 
 
@@ -245,9 +243,9 @@ clan_domain_p clan_domain_pop(clan_domain_p* head) {
  *                     updated to the new element after duplication.
  */
 void clan_domain_dup(clan_domain_p* head) {
-  clan_domain_p top = clan_domain_pop(head);
-  clan_domain_push(head, clan_domain_clone(top));
-  clan_domain_push(head, top);
+    clan_domain_p top = clan_domain_pop(head);
+    clan_domain_push(head, clan_domain_clone(top));
+    clan_domain_push(head, top);
 }
 
 
@@ -261,8 +259,8 @@ void clan_domain_dup(clan_domain_p* head) {
  *                     if there is none).
  */
 void clan_domain_drop(clan_domain_p* head) {
-  clan_domain_p top = clan_domain_pop(head);
-  clan_domain_free(top);
+    clan_domain_p top = clan_domain_pop(head);
+    clan_domain_free(top);
 }
 
 
@@ -274,12 +272,12 @@ void clan_domain_drop(clan_domain_p* head) {
  * \param[in]     new_constraints The constraints to every constraint set.
  */
 void clan_domain_and(clan_domain_p domain, osl_relation_p new_constraints) {
-  osl_relation_list_p base_constraints = domain->constraints;
+    osl_relation_list_p base_constraints = domain->constraints;
 
-  while (base_constraints != NULL) {
-    clan_relation_and(base_constraints->elt, new_constraints);
-    base_constraints = base_constraints->next;
-  }
+    while (base_constraints != NULL) {
+        clan_relation_and(base_constraints->elt, new_constraints);
+        base_constraints = base_constraints->next;
+    }
 }
 
 /**
@@ -291,18 +289,18 @@ void clan_domain_and(clan_domain_p domain, osl_relation_p new_constraints) {
  * \param[in]     stride The loop stride value.
  */
 void clan_domain_stride(clan_domain_p domain, int depth, int stride) {
-  osl_relation_list_p base_constraints = domain->constraints;
-  osl_relation_p stride_constraints;
+    osl_relation_list_p base_constraints = domain->constraints;
+    osl_relation_p stride_constraints;
 
-  if ((stride != 1) && (stride != -1)) {
-    while (base_constraints != NULL) {
-      stride_constraints = clan_relation_stride(base_constraints->elt,
-          depth, stride);
-      osl_relation_free(base_constraints->elt);
-      domain->constraints->elt = stride_constraints;
-      base_constraints = base_constraints->next;
+    if ((stride != 1) && (stride != -1)) {
+        while (base_constraints != NULL) {
+            stride_constraints = clan_relation_stride(base_constraints->elt,
+                                 depth, stride);
+            osl_relation_free(base_constraints->elt);
+            domain->constraints->elt = stride_constraints;
+            base_constraints = base_constraints->next;
+        }
     }
-  }
 }
 
 
@@ -322,39 +320,39 @@ void clan_domain_for(clan_domain_p domain,
                      clan_symbol_p iterator,
                      osl_relation_p initialization,
                      osl_relation_p condition,
-		     int stride,
+                     int stride,
                      clan_options_p options) {
-  osl_vector_p iterator_term;
-  osl_relation_p iterator_relation;
-  osl_relation_p init_constraints;
+    osl_vector_p iterator_term;
+    osl_relation_p iterator_relation;
+    osl_relation_p init_constraints;
 
-  // Generate the set of constraints contributed by the initialization
-  // (nb: it could not be done before because we need to know the stride).
-  iterator_term = clan_vector_term(iterator, 0, NULL, options->precision);
-  osl_int_set_si(options->precision, &iterator_term->v[depth], 1); 
-  iterator_relation = osl_relation_from_vector(iterator_term);
-  if (stride > 0) {
-    init_constraints = clan_relation_greater(iterator_relation,
-	initialization, 0);
-  } else {
-    init_constraints = clan_relation_greater(initialization,
-	iterator_relation, 0);
-  }
-  osl_vector_free(iterator_term);
-  osl_relation_free(iterator_relation);
+    // Generate the set of constraints contributed by the initialization
+    // (nb: it could not be done before because we need to know the stride).
+    iterator_term = clan_vector_term(iterator, 0, NULL, options->precision);
+    osl_int_set_si(options->precision, &iterator_term->v[depth], 1);
+    iterator_relation = osl_relation_from_vector(iterator_term);
+    if (stride > 0) {
+        init_constraints = clan_relation_greater(iterator_relation,
+                           initialization, 0);
+    } else {
+        init_constraints = clan_relation_greater(initialization,
+                           iterator_relation, 0);
+    }
+    osl_vector_free(iterator_term);
+    osl_relation_free(iterator_relation);
 
-  // Add the contribution of the initialization to the current domain.
-  clan_domain_and(domain, init_constraints);
+    // Add the contribution of the initialization to the current domain.
+    clan_domain_and(domain, init_constraints);
 
-  // Add the contribution of the condition to the current domain.
-  if (!options->noloopcontext)
-    clan_relation_loop_context(condition, init_constraints, depth);
-  clan_domain_and(domain, condition);
+    // Add the contribution of the condition to the current domain.
+    if (!options->noloopcontext)
+        clan_relation_loop_context(condition, init_constraints, depth);
+    clan_domain_and(domain, condition);
 
-  // Add the contribution of the stride to the current domain.
-  clan_domain_stride(domain, depth, stride);
+    // Add the contribution of the stride to the current domain.
+    clan_domain_stride(domain, depth, stride);
 
-  osl_relation_free(init_constraints);
+    osl_relation_free(init_constraints);
 }
 
 
@@ -374,56 +372,56 @@ void clan_domain_xfor(clan_domain_p domain,
                       clan_symbol_p iterator,
                       osl_relation_list_p initialization,
                       osl_relation_list_p condition,
-		      int* stride,
+                      int* stride,
                       clan_options_p options) {
-  int i;
-  int nb_indices = clan_relation_list_nb_elements(initialization);
-  int nb_constraint_sets = clan_relation_list_nb_elements(domain->constraints);
-  osl_relation_list_p base, new = NULL;
-  clan_domain_p shell = NULL;
+    int i;
+    int nb_indices = clan_relation_list_nb_elements(initialization);
+    int nb_constraint_sets = clan_relation_list_nb_elements(domain->constraints);
+    osl_relation_list_p base, new = NULL;
+    clan_domain_p shell = NULL;
 
-  // Three possible cases:
-  // 1. the number of constraint sets in the domain is 1 ("first xfor"),
-  //    then we duplicate the constraint sets to match the number of xfor
-  //    indices, then each constraint set receives the contribution of the
-  //    corresponding xfor index,
-  // 2. the number of constraints sets in the domain is equal to
-  //    the number of xfor indices, then each constraint set
-  //    receives the contribution of the corresponding xfor index,
-  // 3. an error is reported (this should be checked in the parser for
-  //    reporting through yyerror).
+    // Three possible cases:
+    // 1. the number of constraint sets in the domain is 1 ("first xfor"),
+    //    then we duplicate the constraint sets to match the number of xfor
+    //    indices, then each constraint set receives the contribution of the
+    //    corresponding xfor index,
+    // 2. the number of constraints sets in the domain is equal to
+    //    the number of xfor indices, then each constraint set
+    //    receives the contribution of the corresponding xfor index,
+    // 3. an error is reported (this should be checked in the parser for
+    //    reporting through yyerror).
 
-  if (nb_constraint_sets == 1) {
-    for (i = 0; i < nb_indices - 1; i++) {
-      osl_relation_list_dup(&domain->constraints);
+    if (nb_constraint_sets == 1) {
+        for (i = 0; i < nb_indices - 1; i++) {
+            osl_relation_list_dup(&domain->constraints);
+        }
+    } else if (nb_constraint_sets != nb_indices) {
+        CLAN_error("incorrect number of indices in an xfor loop");
     }
-  } else if (nb_constraint_sets != nb_indices) {
-    CLAN_error("incorrect number of indices in an xfor loop");
-  }
 
-  // -1. Prepare a domain "shell" to process the xfor indices one by one.
-  shell = clan_domain_malloc();
-  shell->constraints = osl_relation_list_malloc();
-  base = domain->constraints;
-  // -2. For each xfor index
-  for (i = 0; i < nb_indices; i++) {
-    // -2.1 Put the corresponding base constraints in the domain shell.
-    shell->constraints->elt = osl_relation_clone(base->elt);
-    // -2.2 Apply the contribution of the loop to it.
-    clan_domain_for(shell, depth, iterator, initialization->elt,
-                    condition->elt, stride[i], options);
-    // -2.3 Add the final constraint set to a new list.
-    osl_relation_list_add(&new, shell->constraints);
-    // -2.4 Prepare the variables to process the next xfor index.
-    iterator = iterator->next;
-    initialization = initialization->next;
-    condition = condition->next;
+    // -1. Prepare a domain "shell" to process the xfor indices one by one.
+    shell = clan_domain_malloc();
     shell->constraints = osl_relation_list_malloc();
-    base = base->next;
-  }
-  // -3. Replace the original set of constraint set with the new one.
-  osl_relation_list_free(domain->constraints);
-  domain->constraints = new;
+    base = domain->constraints;
+    // -2. For each xfor index
+    for (i = 0; i < nb_indices; i++) {
+        // -2.1 Put the corresponding base constraints in the domain shell.
+        shell->constraints->elt = osl_relation_clone(base->elt);
+        // -2.2 Apply the contribution of the loop to it.
+        clan_domain_for(shell, depth, iterator, initialization->elt,
+                        condition->elt, stride[i], options);
+        // -2.3 Add the final constraint set to a new list.
+        osl_relation_list_add(&new, shell->constraints);
+        // -2.4 Prepare the variables to process the next xfor index.
+        iterator = iterator->next;
+        initialization = initialization->next;
+        condition = condition->next;
+        shell->constraints = osl_relation_list_malloc();
+        base = base->next;
+    }
+    // -3. Replace the original set of constraint set with the new one.
+    osl_relation_list_free(domain->constraints);
+    domain->constraints = new;
 
-  clan_domain_free(shell);
+    clan_domain_free(shell);
 }

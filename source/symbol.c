@@ -1,39 +1,39 @@
 
-   /*+------- <| --------------------------------------------------------**
-    **         A                     Clan                                **
-    **---     /.\   -----------------------------------------------------**
-    **   <|  [""M#                 symbol.c                              **
-    **-   A   | #   -----------------------------------------------------**
-    **   /.\ [""M#         First version: 01/05/2008                     **
-    **- [""M# | #  U"U#U  -----------------------------------------------**
-         | #  | #  \ .:/
-         | #  | #___| #
- ******  | "--'     .-"  ******************************************************
- *     |"-"-"-"-"-#-#-##   Clan : the Chunky Loop Analyzer (experimental)     *
- ****  |     # ## ######  *****************************************************
- *      \       .::::'/                                                       *
- *       \      ::::'/     Copyright (C) 2008 University Paris-Sud 11         *
- *     :8a|    # # ##                                                         *
- *     ::88a      ###      This is free software; you can redistribute it     *
- *    ::::888a  8a ##::.   and/or modify it under the terms of the GNU Lesser *
- *  ::::::::888a88a[]:::   General Public License as published by the Free    *
- *::8:::::::::SUNDOGa8a::. Software Foundation, either version 2.1 of the     *
- *::::::::8::::888:Y8888:: License, or (at your option) any later version.    *
- *::::':::88::::888::Y88a::::::::::::...                                      *
- *::'::..    .   .....   ..   ...  .                                          *
- * This software is distributed in the hope that it will be useful, but       *
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY *
- * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   *
- * for more details.							      *
- *                                                                            *
- * You should have received a copy of the GNU Lesser General Public License   *
- * along with software; if not, write to the Free Software Foundation, Inc.,  *
- * 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA                     *
- *                                                                            *
- * Clan, the Chunky Loop Analyzer                                             *
- * Written by Cedric Bastoul, Cedric.Bastoul@u-psud.fr                        *
- *                                                                            *
- ******************************************************************************/
+/*+------- <| --------------------------------------------------------**
+ **         A                     Clan                                **
+ **---     /.\   -----------------------------------------------------**
+ **   <|  [""M#                 symbol.c                              **
+ **-   A   | #   -----------------------------------------------------**
+ **   /.\ [""M#         First version: 01/05/2008                     **
+ **- [""M# | #  U"U#U  -----------------------------------------------**
+      | #  | #  \ .:/
+      | #  | #___| #
+******  | "--'     .-"  ******************************************************
+*     |"-"-"-"-"-#-#-##   Clan : the Chunky Loop Analyzer (experimental)     *
+****  |     # ## ######  *****************************************************
+*      \       .::::'/                                                       *
+*       \      ::::'/     Copyright (C) 2008 University Paris-Sud 11         *
+*     :8a|    # # ##                                                         *
+*     ::88a      ###      This is free software; you can redistribute it     *
+*    ::::888a  8a ##::.   and/or modify it under the terms of the GNU Lesser *
+*  ::::::::888a88a[]:::   General Public License as published by the Free    *
+*::8:::::::::SUNDOGa8a::. Software Foundation, either version 2.1 of the     *
+*::::::::8::::888:Y8888:: License, or (at your option) any later version.    *
+*::::':::88::::888::Y88a::::::::::::...                                      *
+*::'::..    .   .....   ..   ...  .                                          *
+* This software is distributed in the hope that it will be useful, but       *
+* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY *
+* or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License   *
+* for more details.							      *
+*                                                                            *
+* You should have received a copy of the GNU Lesser General Public License   *
+* along with software; if not, write to the Free Software Foundation, Inc.,  *
+* 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA                     *
+*                                                                            *
+* Clan, the Chunky Loop Analyzer                                             *
+* Written by Cedric Bastoul, Cedric.Bastoul@u-psud.fr                        *
+*                                                                            *
+******************************************************************************/
 
 
 #include <stdlib.h>
@@ -71,100 +71,109 @@ void yyerror(char*);
  * \param[in] level  Number of spaces before printing, for each line.
  */
 void clan_symbol_print_structure(FILE* file, clan_symbol_p symbol, int level) {
-  int i, j, first = 1, number = 1;
+    int i, j, first = 1, number = 1;
 
-  if (symbol != NULL) {
-    // Go to the right level.
-    for(j = 0; j < level; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "+-- clan_symbol_t (node %d)\n", number);
-  } else {
-    // Go to the right level.
-    for(j = 0; j < level; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "+-- NULL symbol\n");
-  }
-
-  while (symbol != NULL) {
-    if (!first) {
-      // Go to the right level.
-      for (j = 0; j < level; j++)
-        fprintf(file, "|\t");
-      fprintf(file, "|   clan_symbol_t (node %d)\n", number);
-    } else {
-      first = 0;
-    }
-
-    // A blank line.
-    for (j = 0; j <= level + 1; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "\n");
-
-    // Go to the right level and print the key.
-    for (j = 0; j <= level; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "Key: %d\n", symbol->key);
-
-    // A blank line.
-    for (j = 0; j <= level+1; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "\n");
-
-    // Print the identifier.
-    for (i = 0; i <= level; i++)
-      fprintf(file, "|\t");
-    if (symbol->identifier != NULL)
-      fprintf(file, "+-- Identifier: %s\n", symbol->identifier);
-    else
-      fprintf(file, "+-- No identifier\n");
-
-    // A blank line.
-    for(j = 0; j <= level + 1; j++)
-      fprintf(file, "|\t") ;
-    fprintf(file, "\n") ;
-
-    // Go to the right level and print the type.
-    for (j = 0; j <= level; j++)
-      fprintf(file, "|\t") ;
-    fprintf(file, "Type: ") ;
-    switch (symbol->type) {
-      case CLAN_TYPE_ITERATOR : fprintf(file, "Iterator\n");  break;
-      case CLAN_TYPE_PARAMETER: fprintf(file, "Parameter\n"); break;
-      case CLAN_TYPE_ARRAY    : fprintf(file, "Array\n");     break;
-      case CLAN_TYPE_FUNCTION : fprintf(file, "Function\n");  break;
-      default : fprintf(file, "Unknown\n") ;
-    }
-
-    // A blank line.
-    for (j = 0; j <= level + 1; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "\n");
-
-    // Go to the right level and print the rank.
-    for (j = 0; j <= level; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "Rank: %d\n", symbol->rank);
-
-    // A blank line.
-    for (j = 0; j <= level + 1; j++)
-      fprintf(file, "|\t");
-    fprintf(file, "\n");
-
-    symbol = symbol->next;
-    number++;
-
-    // Next line.
     if (symbol != NULL) {
-      for (j = 0; j <= level; j++)
-        fprintf(file, "|\t");
-      fprintf(file, "V\n");
+        // Go to the right level.
+        for(j = 0; j < level; j++)
+            fprintf(file, "|\t");
+        fprintf(file, "+-- clan_symbol_t (node %d)\n", number);
+    } else {
+        // Go to the right level.
+        for(j = 0; j < level; j++)
+            fprintf(file, "|\t");
+        fprintf(file, "+-- NULL symbol\n");
     }
-  }
 
-  // The last line.
-  for(j = 0; j <= level; j++)
-    fprintf(file, "|\t");
-  fprintf(file, "\n");
+    while (symbol != NULL) {
+        if (!first) {
+            // Go to the right level.
+            for (j = 0; j < level; j++)
+                fprintf(file, "|\t");
+            fprintf(file, "|   clan_symbol_t (node %d)\n", number);
+        } else {
+            first = 0;
+        }
+
+        // A blank line.
+        for (j = 0; j <= level + 1; j++)
+            fprintf(file, "|\t");
+        fprintf(file, "\n");
+
+        // Go to the right level and print the key.
+        for (j = 0; j <= level; j++)
+            fprintf(file, "|\t");
+        fprintf(file, "Key: %d\n", symbol->key);
+
+        // A blank line.
+        for (j = 0; j <= level+1; j++)
+            fprintf(file, "|\t");
+        fprintf(file, "\n");
+
+        // Print the identifier.
+        for (i = 0; i <= level; i++)
+            fprintf(file, "|\t");
+        if (symbol->identifier != NULL)
+            fprintf(file, "+-- Identifier: %s\n", symbol->identifier);
+        else
+            fprintf(file, "+-- No identifier\n");
+
+        // A blank line.
+        for(j = 0; j <= level + 1; j++)
+            fprintf(file, "|\t") ;
+        fprintf(file, "\n") ;
+
+        // Go to the right level and print the type.
+        for (j = 0; j <= level; j++)
+            fprintf(file, "|\t") ;
+        fprintf(file, "Type: ") ;
+        switch (symbol->type) {
+        case CLAN_TYPE_ITERATOR :
+            fprintf(file, "Iterator\n");
+            break;
+        case CLAN_TYPE_PARAMETER:
+            fprintf(file, "Parameter\n");
+            break;
+        case CLAN_TYPE_ARRAY    :
+            fprintf(file, "Array\n");
+            break;
+        case CLAN_TYPE_FUNCTION :
+            fprintf(file, "Function\n");
+            break;
+        default :
+            fprintf(file, "Unknown\n") ;
+        }
+
+        // A blank line.
+        for (j = 0; j <= level + 1; j++)
+            fprintf(file, "|\t");
+        fprintf(file, "\n");
+
+        // Go to the right level and print the rank.
+        for (j = 0; j <= level; j++)
+            fprintf(file, "|\t");
+        fprintf(file, "Rank: %d\n", symbol->rank);
+
+        // A blank line.
+        for (j = 0; j <= level + 1; j++)
+            fprintf(file, "|\t");
+        fprintf(file, "\n");
+
+        symbol = symbol->next;
+        number++;
+
+        // Next line.
+        if (symbol != NULL) {
+            for (j = 0; j <= level; j++)
+                fprintf(file, "|\t");
+            fprintf(file, "V\n");
+        }
+    }
+
+    // The last line.
+    for(j = 0; j <= level; j++)
+        fprintf(file, "|\t");
+    fprintf(file, "\n");
 }
 
 
@@ -176,7 +185,7 @@ void clan_symbol_print_structure(FILE* file, clan_symbol_p symbol, int level) {
  * \param[in] symbol The symbol whose information have to be printed.
  */
 void clan_symbol_print(FILE* file, clan_symbol_p symbol) {
-  clan_symbol_print_structure(file, symbol, 0);
+    clan_symbol_print_structure(file, symbol, 0);
 }
 
 
@@ -193,16 +202,16 @@ void clan_symbol_print(FILE* file, clan_symbol_p symbol) {
  * \return A newly allocated symbol set with default values.
  */
 clan_symbol_p clan_symbol_malloc() {
-  clan_symbol_p symbol;
+    clan_symbol_p symbol;
 
-  CLAN_malloc(symbol, clan_symbol_p, sizeof(clan_symbol_t));
-  symbol->key        = CLAN_UNDEFINED;
-  symbol->identifier = NULL;
-  symbol->type       = CLAN_UNDEFINED;
-  symbol->rank       = CLAN_UNDEFINED;
-  symbol->next       = NULL;
+    CLAN_malloc(symbol, clan_symbol_p, sizeof(clan_symbol_t));
+    symbol->key        = CLAN_UNDEFINED;
+    symbol->identifier = NULL;
+    symbol->type       = CLAN_UNDEFINED;
+    symbol->rank       = CLAN_UNDEFINED;
+    symbol->next       = NULL;
 
-  return symbol;
+    return symbol;
 }
 
 
@@ -212,14 +221,14 @@ clan_symbol_p clan_symbol_malloc() {
  * \param[in,out] symbol The pointer to the symbol we want to free.
  */
 void clan_symbol_free(clan_symbol_p symbol) {
-  clan_symbol_p next;
+    clan_symbol_p next;
 
-  while (symbol != NULL) {
-    next = symbol->next;
-    free(symbol->identifier);
-    free(symbol);
-    symbol = next;
-  }
+    while (symbol != NULL) {
+        next = symbol->next;
+        free(symbol->identifier);
+        free(symbol);
+        symbol = next;
+    }
 }
 
 
@@ -238,16 +247,16 @@ void clan_symbol_free(clan_symbol_p symbol) {
  * \return The symbol corresponding to identifier, NULL if it doesn't exist.
  */
 clan_symbol_p clan_symbol_lookup(clan_symbol_p symbol, char* identifier) {
-  while (symbol != NULL) {
-    if (strcmp(symbol->identifier, identifier) == 0)
-      return symbol;
-    else
-      symbol = symbol->next;
-  }
-  return NULL;
+    while (symbol != NULL) {
+        if (strcmp(symbol->identifier, identifier) == 0)
+            return symbol;
+        else
+            symbol = symbol->next;
+    }
+    return NULL;
 }
 
-  
+
 /**
  * clan_symbol_lookup_by_key function:
  * This function searches the symbol table for a symbol with the key
@@ -258,13 +267,13 @@ clan_symbol_p clan_symbol_lookup(clan_symbol_p symbol, char* identifier) {
  * \return The symbol corresponding to the key, or NULL if it doesn't exist.
  */
 clan_symbol_p clan_symbol_lookup_by_key(clan_symbol_p symbol, int key) {
-  while (symbol != NULL) {
-    if (symbol->key == key)
-      return symbol;
-    else
-      symbol = symbol->next;
-  }
-  return NULL;
+    while (symbol != NULL) {
+        if (symbol->key == key)
+            return symbol;
+        else
+            symbol = symbol->next;
+    }
+    return NULL;
 }
 
 
@@ -276,14 +285,14 @@ clan_symbol_p clan_symbol_lookup_by_key(clan_symbol_p symbol, int key) {
  */
 static
 int clan_symbol_generate_new_key(clan_symbol_p table) {
-  int key = CLAN_KEY_START;
-  
-  while (table != NULL) {
-    if (table->key >= key)
-      key = table->key + 1;
-    table = table->next;
-  }
-  return key;
+    int key = CLAN_KEY_START;
+
+    while (table != NULL) {
+        if (table->key >= key)
+            key = table->key + 1;
+        table = table->next;
+    }
+    return key;
 }
 
 
@@ -296,16 +305,16 @@ int clan_symbol_generate_new_key(clan_symbol_p table) {
  * \param[in]     symbol The symbol to add to the table.
  */
 void clan_symbol_push_at_end(clan_symbol_p* table, clan_symbol_p symbol) {
-  clan_symbol_p tmp = *table;
+    clan_symbol_p tmp = *table;
 
-  // We put the symbol at the end of the table.
-  if (*table == NULL) {
-    *table = symbol;
-  } else {
-    while (tmp->next != NULL)
-      tmp = tmp->next;
-    tmp->next = symbol;
-  }
+    // We put the symbol at the end of the table.
+    if (*table == NULL) {
+        *table = symbol;
+    } else {
+        while (tmp->next != NULL)
+            tmp = tmp->next;
+        tmp->next = symbol;
+    }
 }
 
 
@@ -322,23 +331,23 @@ void clan_symbol_push_at_end(clan_symbol_p* table, clan_symbol_p symbol) {
  */
 clan_symbol_p clan_symbol_add(clan_symbol_p* table, char* identifier,
                               int type) {
-  clan_symbol_p symbol;
+    clan_symbol_p symbol;
 
-  // If the identifier is already in the table, do nothing.
-  symbol = clan_symbol_lookup(*table, identifier);
-  if (symbol != NULL)
+    // If the identifier is already in the table, do nothing.
+    symbol = clan_symbol_lookup(*table, identifier);
+    if (symbol != NULL)
+        return symbol;
+
+    // Else, we allocate and fill a new clan_symbol_t node.
+    symbol = clan_symbol_malloc();
+    symbol->key = clan_symbol_generate_new_key(*table);
+    symbol->identifier = strdup(identifier);
+    symbol->type = type;
+
+    // We put the new symbol at the end of the table.
+    clan_symbol_push_at_end(table, symbol);
+
     return symbol;
-
-  // Else, we allocate and fill a new clan_symbol_t node.
-  symbol = clan_symbol_malloc();
-  symbol->key = clan_symbol_generate_new_key(*table);
-  symbol->identifier = strdup(identifier);
-  symbol->type = type;
-
-  // We put the new symbol at the end of the table.
-  clan_symbol_push_at_end(table, symbol);
-
-  return symbol;
 }
 
 
@@ -352,13 +361,13 @@ clan_symbol_p clan_symbol_add(clan_symbol_p* table, char* identifier,
  * \return The key corresponding to the identifier or CLAN_UNDEFINED.
  */
 int clan_symbol_get_key(clan_symbol_p symbol, char* identifier) {
-  while (symbol != NULL) {
-    if (strcmp(symbol->identifier,identifier) == 0)
-      return symbol->key;
-    else
-      symbol = symbol->next;
-  }
-  return CLAN_UNDEFINED;
+    while (symbol != NULL) {
+        if (strcmp(symbol->identifier,identifier) == 0)
+            return symbol->key;
+        else
+            symbol = symbol->next;
+    }
+    return CLAN_UNDEFINED;
 }
 
 
@@ -372,13 +381,13 @@ int clan_symbol_get_key(clan_symbol_p symbol, char* identifier) {
  * \return The rank corresponding to the identifier or CLAN_UNDEFINED.
  */
 int clan_symbol_get_rank(clan_symbol_p symbol, char* identifier) {
-  while (symbol != NULL) {
-    if (strcmp(symbol->identifier,identifier) == 0)
-      return symbol->rank;
-    else
-      symbol = symbol->next;
-  }
-  return CLAN_UNDEFINED;
+    while (symbol != NULL) {
+        if (strcmp(symbol->identifier,identifier) == 0)
+            return symbol->rank;
+        else
+            symbol = symbol->next;
+    }
+    return CLAN_UNDEFINED;
 }
 
 
@@ -392,13 +401,13 @@ int clan_symbol_get_rank(clan_symbol_p symbol, char* identifier) {
  * \return The type of the symbol corresponding to the identifier.
  */
 int clan_symbol_get_type(clan_symbol_p symbol, char* identifier) {
-  while (symbol != NULL) {
-    if (strcmp(symbol->identifier,identifier) == 0)
-      return symbol->type;
-    else
-      symbol = symbol->next;
-  }
-  return CLAN_UNDEFINED;
+    while (symbol != NULL) {
+        if (strcmp(symbol->identifier,identifier) == 0)
+            return symbol->type;
+        else
+            symbol = symbol->next;
+    }
+    return CLAN_UNDEFINED;
 }
 
 
@@ -415,35 +424,35 @@ int clan_symbol_get_type(clan_symbol_p symbol, char* identifier) {
  * \return An osl_strings_t containing all the symbol strings.
  */
 osl_strings_p clan_symbol_array_to_strings(clan_symbol_p* sarray, int size,
-                                           int* depths, int* labels) {
-  int i, j, xfor_index = 0, xfor_index_reuse = 0;
-  clan_symbol_p symbol;
-  osl_strings_p strings = osl_strings_malloc();
-  
-  // Fill the array of strings.
-  for (i = 0; i < size; i++) {
-    symbol = sarray[i];
-    // If symbol has a non-NULL next field, it means it corresponds to
-    // an xfor index that we have to select conveniently:
-    if (symbol->next != NULL) {
-      // -1. Select the convenient symbol thanks to the xfor label.
-      for (j = 0; j < labels[xfor_index]; j++)
-        symbol = symbol->next;
-      
-      // -2. Increment the number of times we used that symbol.
-      xfor_index_reuse++;
+        int* depths, int* labels) {
+    int i, j, xfor_index = 0, xfor_index_reuse = 0;
+    clan_symbol_p symbol;
+    osl_strings_p strings = osl_strings_malloc();
 
-      // -3. If we reached the current xfor depth, the next xfor index
-      //     will be found in the next xfor loop nest.
-      if (xfor_index_reuse >= depths[xfor_index]) {
-        xfor_index++;
-        xfor_index_reuse = 0;
-      }
+    // Fill the array of strings.
+    for (i = 0; i < size; i++) {
+        symbol = sarray[i];
+        // If symbol has a non-NULL next field, it means it corresponds to
+        // an xfor index that we have to select conveniently:
+        if (symbol->next != NULL) {
+            // -1. Select the convenient symbol thanks to the xfor label.
+            for (j = 0; j < labels[xfor_index]; j++)
+                symbol = symbol->next;
+
+            // -2. Increment the number of times we used that symbol.
+            xfor_index_reuse++;
+
+            // -3. If we reached the current xfor depth, the next xfor index
+            //     will be found in the next xfor loop nest.
+            if (xfor_index_reuse >= depths[xfor_index]) {
+                xfor_index++;
+                xfor_index_reuse = 0;
+            }
+        }
+        osl_strings_add(strings, symbol->identifier);
     }
-    osl_strings_add(strings, symbol->identifier);
-  }
 
-  return strings;
+    return strings;
 }
 
 
@@ -456,15 +465,15 @@ osl_strings_p clan_symbol_array_to_strings(clan_symbol_p* sarray, int size,
  * \return The number of symbols of the provoded type in the symbol table.
  */
 int clan_symbol_nb_of_type(clan_symbol_p symbol, int type) {
-  int nb = 0;
-  
-  while (symbol != NULL) {
-    if (symbol->type == type)
-      nb++;
-    symbol = symbol->next;
-  }
+    int nb = 0;
 
-  return nb;
+    while (symbol != NULL) {
+        if (symbol->type == type)
+            nb++;
+        symbol = symbol->next;
+    }
+
+    return nb;
 }
 
 
@@ -481,25 +490,25 @@ int clan_symbol_nb_of_type(clan_symbol_p symbol, int type) {
  * \return An osl_generic_t with the symbol strings of the given type.
  */
 osl_generic_p clan_symbol_to_strings(clan_symbol_p symbol, int type) {
-  osl_strings_p strings = NULL;
-  osl_generic_p generic;
+    osl_strings_p strings = NULL;
+    osl_generic_p generic;
 
-  if (clan_symbol_nb_of_type(symbol, type) == 0)
-    return NULL;
+    if (clan_symbol_nb_of_type(symbol, type) == 0)
+        return NULL;
 
-  // We scan the table a second time to fill the identifier array
-  // Not optimal to act this way but overkills are worse!
-  strings = osl_strings_malloc();
-  while (symbol != NULL) {
-    if (symbol->type == type) {
-      osl_strings_add(strings, symbol->identifier);
+    // We scan the table a second time to fill the identifier array
+    // Not optimal to act this way but overkills are worse!
+    strings = osl_strings_malloc();
+    while (symbol != NULL) {
+        if (symbol->type == type) {
+            osl_strings_add(strings, symbol->identifier);
+        }
+        symbol = symbol->next;
     }
-    symbol = symbol->next;
-  }
 
-  // Embed the strings in a generic shell.
-  generic = osl_generic_shell(strings, osl_strings_interface());
-  return generic;
+    // Embed the strings in a generic shell.
+    generic = osl_generic_shell(strings, osl_strings_interface());
+    return generic;
 }
 
 
@@ -511,14 +520,14 @@ osl_generic_p clan_symbol_to_strings(clan_symbol_p symbol, int type) {
 * \return The clone of the symbol (and this symbol only).
 */
 clan_symbol_p clan_symbol_clone_one(clan_symbol_p symbol) {
-  clan_symbol_p clone = clan_symbol_malloc();
+    clan_symbol_p clone = clan_symbol_malloc();
 
-  if (symbol->identifier != NULL)
-    clone->identifier = strdup(symbol->identifier);
-  clone->type = symbol->type;
-  clone->rank = symbol->rank;
+    if (symbol->identifier != NULL)
+        clone->identifier = strdup(symbol->identifier);
+    clone->type = symbol->type;
+    clone->rank = symbol->rank;
 
-  return clone;
+    return clone;
 }
 
 
@@ -531,38 +540,38 @@ clan_symbol_p clan_symbol_clone_one(clan_symbol_p symbol) {
  * \return An arrays structure with all the arrays of the symbol table.
  */
 osl_generic_p clan_symbol_to_arrays(clan_symbol_p symbol) {
-  int i;
-  int nb_arrays = 0;
-  osl_arrays_p arrays = NULL;
-  osl_generic_p generic = NULL;
-  clan_symbol_p top = symbol;
+    int i;
+    int nb_arrays = 0;
+    osl_arrays_p arrays = NULL;
+    osl_generic_p generic = NULL;
+    clan_symbol_p top = symbol;
 
-  // A first scan to know how many arrays there are.
-  while (symbol != NULL) {
-    nb_arrays++;
-    symbol = symbol->next;
-  }
-
-  // Build the arrays extension.
-  if (nb_arrays > 0) {
-    arrays = osl_arrays_malloc();
-    CLAN_malloc(arrays->id, int*, nb_arrays * sizeof(int));
-    CLAN_malloc(arrays->names, char**, nb_arrays * sizeof(char *));
-    arrays->nb_names = nb_arrays;
-    symbol = top;
-    i = 0;
+    // A first scan to know how many arrays there are.
     while (symbol != NULL) {
-      arrays->id[i] = symbol->key;
-      CLAN_strdup(arrays->names[i], symbol->identifier);
-      i++;
-      symbol = symbol->next;
+        nb_arrays++;
+        symbol = symbol->next;
     }
-    
-    // Embed the arrays in a generic shell.
-    generic = osl_generic_shell(arrays, osl_arrays_interface());
-  }
 
-  return generic;
+    // Build the arrays extension.
+    if (nb_arrays > 0) {
+        arrays = osl_arrays_malloc();
+        CLAN_malloc(arrays->id, int*, nb_arrays * sizeof(int));
+        CLAN_malloc(arrays->names, char**, nb_arrays * sizeof(char *));
+        arrays->nb_names = nb_arrays;
+        symbol = top;
+        i = 0;
+        while (symbol != NULL) {
+            arrays->id[i] = symbol->key;
+            CLAN_strdup(arrays->names[i], symbol->identifier);
+            i++;
+            symbol = symbol->next;
+        }
+
+        // Embed the arrays in a generic shell.
+        generic = osl_generic_shell(arrays, osl_arrays_interface());
+    }
+
+    return generic;
 }
 
 
@@ -580,21 +589,21 @@ osl_generic_p clan_symbol_to_arrays(clan_symbol_p symbol) {
  */
 int clan_symbol_new_iterator(clan_symbol_p* table, clan_symbol_p* array,
                              char* id, int depth) {
-  clan_symbol_p symbol;
-  symbol = clan_symbol_add(table, id, CLAN_TYPE_ITERATOR);
+    clan_symbol_p symbol;
+    symbol = clan_symbol_add(table, id, CLAN_TYPE_ITERATOR);
 
-  // Ensure that the returned symbol was either a new one, or of the same type.
-  if (symbol->type != CLAN_TYPE_ITERATOR) {
-    yyerror("a loop iterator was previously used for something else");
-    return 0;
-  }
-  
-  // Update the rank, in case the symbol already exists.
-  if (symbol->rank != depth + 1)
-    symbol->rank = depth + 1;
+    // Ensure that the returned symbol was either a new one, or of the same type.
+    if (symbol->type != CLAN_TYPE_ITERATOR) {
+        yyerror("a loop iterator was previously used for something else");
+        return 0;
+    }
 
-  clan_symbol_push_at_end(&array[depth], clan_symbol_clone_one(symbol));
-  return 1;
+    // Update the rank, in case the symbol already exists.
+    if (symbol->rank != depth + 1)
+        symbol->rank = depth + 1;
+
+    clan_symbol_push_at_end(&array[depth], clan_symbol_clone_one(symbol));
+    return 1;
 }
 
 
@@ -614,39 +623,39 @@ int clan_symbol_new_iterator(clan_symbol_p* table, clan_symbol_p* array,
  */
 int clan_symbol_update_type(clan_symbol_p table, osl_relation_list_p access,
                             int type) {
-  int key;
-  int relation_type;
-  clan_symbol_p symbol;
-  
-  if (table == NULL)
-    CLAN_error("cannot even try to update type: NULL symbol table");
-  if (access == NULL)
-    CLAN_error("cannot even try to update type: NULL access list");
+    int key;
+    int relation_type;
+    clan_symbol_p symbol;
 
-  // We will only consider the last reference in the list.
-  while (access->next != NULL)
-    access = access->next;
+    if (table == NULL)
+        CLAN_error("cannot even try to update type: NULL symbol table");
+    if (access == NULL)
+        CLAN_error("cannot even try to update type: NULL access list");
 
-  // Get the key (with some cheating with the relation type to be able to use
-  // osl_relation_get_array_id), find the corresponding symbol and update.
-  relation_type = access->elt->type;
-  access->elt->type = OSL_TYPE_READ;
-  key = osl_relation_get_array_id(access->elt);
-  access->elt->type = relation_type;
-  symbol = clan_symbol_lookup_by_key(table, key);
-  if (symbol == NULL)
-    CLAN_error("no symbol corresponding to the key");
+    // We will only consider the last reference in the list.
+    while (access->next != NULL)
+        access = access->next;
 
-  if ((symbol->type == CLAN_TYPE_ITERATOR) && (type != CLAN_TYPE_ITERATOR)) {
-    yyerror("illegal use of an iterator (update or reference) in a statement");
-    return 0;
-  }
+    // Get the key (with some cheating with the relation type to be able to use
+    // osl_relation_get_array_id), find the corresponding symbol and update.
+    relation_type = access->elt->type;
+    access->elt->type = OSL_TYPE_READ;
+    key = osl_relation_get_array_id(access->elt);
+    access->elt->type = relation_type;
+    symbol = clan_symbol_lookup_by_key(table, key);
+    if (symbol == NULL)
+        CLAN_error("no symbol corresponding to the key");
 
-  if ((symbol->type == CLAN_TYPE_PARAMETER) && (type != CLAN_TYPE_PARAMETER)) {
-    yyerror("illegal use of a parameter (update or reference) in a statement");
-    return 0;
-  }
+    if ((symbol->type == CLAN_TYPE_ITERATOR) && (type != CLAN_TYPE_ITERATOR)) {
+        yyerror("illegal use of an iterator (update or reference) in a statement");
+        return 0;
+    }
 
-  symbol->type = type;
-  return 1;
+    if ((symbol->type == CLAN_TYPE_PARAMETER) && (type != CLAN_TYPE_PARAMETER)) {
+        yyerror("illegal use of a parameter (update or reference) in a statement");
+        return 0;
+    }
+
+    symbol->type = type;
+    return 1;
 }

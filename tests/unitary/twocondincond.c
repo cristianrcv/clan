@@ -1,8 +1,8 @@
 #pragma scop
 if (M > N && M > Q)
-  if (Q > P)
-    a;
+    if (Q > P)
+        a;
 b;
 if (M > P)
-  c;
+    c;
 #pragma endscop

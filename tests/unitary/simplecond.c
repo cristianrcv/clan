@@ -1,5 +1,5 @@
 #pragma scop
 for (i = 0; i < n; ++i)
-  if (i > 1)
-    a = 0;
+    if (i > 1)
+        a = 0;
 #pragma endscop

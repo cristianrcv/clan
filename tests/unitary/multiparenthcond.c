@@ -1,4 +1,4 @@
 #pragma scop
 if (((M) > (N+1)))
-  a;
+    a;
 #pragma endscop

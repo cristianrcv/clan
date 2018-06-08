@@ -1,6 +1,6 @@
 #pragma scop
 if (M > N)
-  a;
+    a;
 if (M <= N)
-  b;
+    b;
 #pragma endscop

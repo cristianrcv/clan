@@ -4,10 +4,10 @@
  */
 #pragma scop
 for (N_MINUS_J=N-(N-1); N_MINUS_J<=N-1; N_MINUS_J++) {
-   JJ=N - N_MINUS_J;
-   for (I=1; I<N-1; I++) {
-       RX[JJ][I] = (RX[JJ][I]-AA[JJ][I]*RX[JJ+1][I])*D[JJ][I];
-   }
+    JJ=N - N_MINUS_J;
+    for (I=1; I<N-1; I++) {
+        RX[JJ][I] = (RX[JJ][I]-AA[JJ][I]*RX[JJ+1][I])*D[JJ][I];
+    }
 }
 #pragma endscop
 
